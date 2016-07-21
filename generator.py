@@ -130,7 +130,48 @@ class Tree:
 				Tree.split_space(leaf.rightChild)
 
 	def create_rooms(self):
-		pass
+		current_leaf = self._root
+		reviewed_leafs = set()
+		last_leafs = []
+
+		while current_leaf != None:
+			if current_leaf not in reviewed_leafs \
+				    and current_leaf.room == None \
+				    and current_leaf.leftChild == None \
+				    and current_leaf.rightChild == None:
+				current_leaf.create_room()
+			if current_leaf.leftChild and current_leaf.leftChild not in reviewed_leafs:
+				last_leafs.append(current_leaf)
+				current_leaf = current_leaf.leftChild
+			elif current_leaf.rightChild and current_leaf.rightChild not in reviewed_leafs:
+				last_leafs.append(current_leaf)
+				current_leaf = current_leaf.rightChild
+			else:
+				current_leaf = last_leafs.pop() if len(last_leafs) else None
+
+	def get_rooms(self):
+		def func(leaf):
+			if leaf.room:
+				print(leaf.room)
+		self.map(func)
+
+	def map(self, func):
+		current_leaf = self._root
+		reviewed_leafs = set()
+		last_leafs = []
+
+		while current_leaf != None:
+			func(current_leaf)
+
+			if current_leaf.leftChild and current_leaf.leftChild not in reviewed_leafs:
+				last_leafs.append(current_leaf)
+				current_leaf = current_leaf.leftChild
+			elif current_leaf.rightChild and current_leaf.rightChild not in reviewed_leafs:
+				last_leafs.append(current_leaf)
+				current_leaf = current_leaf.rightChild
+			else:
+				current_leaf = last_leafs.pop() if len(last_leafs) else None
+
 
 	def split(self):
 		Tree.split_space(self._root)
@@ -162,5 +203,7 @@ if __name__ == '__main__':
 	T.printt()
 	print()
 	T.t_print()
+	T.create_rooms()
+	T.get_rooms()
 
 
