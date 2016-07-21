@@ -135,12 +135,32 @@ class Tree:
 	def split(self):
 		Tree.split_space(self._root)
 
-	def printf(self):
+	def printt(self):
 		Tree.print_tree(self._root)
+
+	def t_print(self):
+		leaf = self._root
+		printed_points = set()
+		last_point = []
+		while leaf != None:
+			if leaf not in printed_points:
+				print(leaf)
+				printed_points.add(leaf)
+
+			if leaf.leftChild and leaf.leftChild not in printed_points:
+				last_point.append(leaf)
+				leaf = leaf.leftChild
+			elif leaf.rightChild and leaf.rightChild not in printed_points:
+				last_point.append(leaf)
+				leaf = leaf.rightChild
+			else:
+				leaf = last_point.pop() if len(last_point) else None
 
 if __name__ == '__main__':
 	T = Tree(0,0,10,10)
 	T.split()
-	T.printf()
+	T.printt()
+	print()
+	T.t_print()
 
 
