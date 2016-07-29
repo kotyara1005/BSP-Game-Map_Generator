@@ -73,7 +73,7 @@ class Rectangle:
 
 class Leaf(Rectangle):
 	MIN_LEAF_SIDE = 4
-	MIN_ROOM_SIDE = 3
+	MIN_ROOM_SIDE = 1
 	def __init__(self, x, y, width, heigh):
 		super(Leaf, self).__init__(x, y, width, heigh)
 		self.leftChild = None
@@ -104,13 +104,14 @@ class Leaf(Rectangle):
 	def create_room(self):
 		room_x = self._x + randrange(1, self._width - 1, 1)
 		room_y = self._y + randrange(1, self._height - 1, 1)
-		room_w = randrange(Leaf.MIN_ROOM_SIDE, self._width - room_x - 2, 1)
-		room_h = randrange(Leaf.MIN_ROOM_SIDE, self._height - room_y - 2, 1)
+		room_w = randrange(Leaf.MIN_ROOM_SIDE, self._width - room_x - 1, 1)
+		room_h = randrange(Leaf.MIN_ROOM_SIDE, self._height - room_y - 1, 1)
 		self.room = Rectangle(room_x, room_y, room_w, room_h)
 
 class Tree:
 	def __init__(self, x, y, width, height):
 		self._root = Leaf(x, y, width, height)
+		self.rooms = None
 
 	@staticmethod
 	def print_tree(leaf):
@@ -140,6 +141,7 @@ class Tree:
 				    and current_leaf.leftChild == None \
 				    and current_leaf.rightChild == None:
 				current_leaf.create_room()
+				print(current_leaf.room)
 			if current_leaf.leftChild and current_leaf.leftChild not in reviewed_leafs:
 				last_leafs.append(current_leaf)
 				current_leaf = current_leaf.leftChild
@@ -204,6 +206,7 @@ if __name__ == '__main__':
 	print()
 	T.t_print()
 	T.create_rooms()
+	print("+")
 	T.get_rooms()
 
 
